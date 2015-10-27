@@ -9,9 +9,9 @@ public class Exchange {
     //индекс массива с определённым годом (см. res/values/currencies.xml)
     private int yearIndex;
 
-    public Exchange(double[] dollars, double[] pounds) {
-        this.dollars = dollars;
-        this.pounds = pounds;
+    public Exchange(String[] dollars, String[] pounds) {
+        this.dollars = stringToDoubleArray(dollars);
+        this.pounds = stringToDoubleArray(pounds);
     }
 
     //задаёт индекс массива для выбора определённого года
@@ -30,7 +30,7 @@ public class Exchange {
     }
 
     public double dollarsFromRubles(double currency) {
-        return dollars[yearIndex] * (1 / currency);
+        return (1/dollars[yearIndex]) * currency;
     }
 
     public double poundsFromRubles(double currency) {
@@ -47,5 +47,13 @@ public class Exchange {
     public double dollarsFromPounds(double currency) {
         double rubles = rublesFromPounds(currency);
         return dollarsFromRubles(rubles);
+    }
+
+    private double[] stringToDoubleArray(String[] stringArray) {
+        double[] array = new double[stringArray.length];
+        for(int i = 0; i < stringArray.length; i++) {
+            array[i] = Double.parseDouble(stringArray[i]);
+        }
+        return array;
     }
 }

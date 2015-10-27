@@ -8,22 +8,30 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
+    private EditText from, to;
+
+    Exchange exchange;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        exchange = new Exchange(getResources().getStringArray(R.array.dollars), getResources().getStringArray(R.array.pounds));
+        exchange.setYearIndex(1);
+
+        from = (EditText) findViewById(R.id.currency_from);
+        to = (EditText) findViewById(R.id.currency_to);
+
+        to.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                double fromCurrency = Double.parseDouble(from.getText().toString());
+                double toCurrency = exchange.dollarsFromRubles(fromCurrency);
+                to.setText(String.valueOf(toCurrency));
             }
         });
     }
